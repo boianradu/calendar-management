@@ -1,0 +1,28 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Calendar {
+    id      Int             @id @unique @default(autoincrement())
+    // uuid    String          @id @default(uuid()) @db.Uuid
+    name    String
+    entries CalendarEntry[]
+
+    @@map("calendar")
+}
+
+model CalendarEntry {
+    id          Int      @id @default(autoincrement())
+    title       String
+    start       DateTime @db.Timestamptz
+    duration    String
+    id_calendar Int
+    calendar    Calendar @relation(fields: [id_calendar], references: [id])
+
+    @@map("calendar_entries")
+}
