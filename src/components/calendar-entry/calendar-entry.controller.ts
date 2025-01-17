@@ -1,28 +1,42 @@
-import CalendarEntryController from './calendar-entry.service';
-import { CalendarEntry } from './calendar-entry.model';
+import { CalendarEntryService } from './calendar-entry.service';
 
-class CalendarEntryService {
-    public calendarEntryController: CalendarEntryController
-    constructor(calendarEntryController) {
-        this.calendarEntryController = calendarEntryController;
+class CalendarEntryController {
+    public ceService: CalendarEntryService
+    constructor(ceService) {
+        this.ceService = ceService;
     }
 
     createCalendarEntry = (req, res) => {
         const title = req.body.title
         const start = req.body.start
         const duration = req.body.duration
-        // TODO: sanitize
-        const calendarEntry = new CalendarEntry(title, start, duration);
-        return res.status(201).send(this.calendarEntryController.createCalendarEntry(calendarEntry));
+        const calendarId = req.body.calendarId
+        // TODO: sanitize 
+        return res.status(201).send(this.ceService.createCalendarEntry(title, start, duration, calendarId));
     };
 
-    getCalendarEntries = (_, res) => res.status(200).send();
+    getCalendarEntries = (req, res) => {
+        const calendarId = req.body.calendarId
+        res.status(200).send(this.ceService.getCalendarEntries(calendarId));
+    }
 
-    getCalendar = (req, res) => {
-        const { id } = req.params;
-        return res.status(200).send();
-    };
+
+    updateCalendarEntries = (req, res) => {
+        const title = req.body.title
+        const start = req.body.start
+        const duration = req.body.duration
+        const calendarId = req.body.calendarId
+
+        res.status(200).send(this.ceService.update(calendarId));
+    }
+
+
+    deleteCalendarEntry = (req, res) => {
+        const calendarEntryId = req.body.calendarId
+
+        res.status(200).send(this.ceService.getCalendarEntries(calendarEntryId));
+    }
 
 }
 
-export default CalendarEntryService;
+export default CalendarEntryController;
