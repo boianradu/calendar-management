@@ -1,40 +1,61 @@
-// calendar.controller.ts
-import { Calendar } from "./calendar.model";
-import { prisma } from "../../db/db";
 import { CalendarService } from "./calendar.service";
+import { Request, Response, NextFunction } from 'express';
 
 
-export class ControllerCalendar {
+export class CalendarController {
     public calendarService: CalendarService
     constructor(calendarService: CalendarService) {
         this.calendarService = calendarService
     }
 
-    createCalendar = (req, res) => {
+    createCalendar = (req: Request, res: Response, next: NextFunction) => {
         const name = req.body.name
-        // TODO: sanitize 
-        return res.status(201).send(this.calendarService.createCalendar(name));
+        // TODO: sanitize  
+        this.calendarService.createCalendar(name)
+            .then((result) => {
+                res.status(201).send(result);
+            })
+            .catch((error) => {
+                next(error);
+            });
     }
 
-    getCalendar = (req, res) => {
+    getCalendar = (req: Request, res: Response, next: NextFunction) => {
         const calendarId = req.body.calendarId
         // TODO: sanitize 
-        return res.status(201).send(this.calendarService.getCalendar(calendarId));
 
+        this.calendarService.getCalendar(calendarId)
+            .then((result) => {
+                res.status(201).send(result);
+            })
+            .catch((error) => {
+                next(error);
+            });
     }
 
-    updateCalendarName = (req, res) => {
+    updateCalendarName = (req: Request, res: Response, next: NextFunction) => {
         const calendarId = req.body.calendarId
         const calendarName = req.body.name
         // TODO: sanitize 
-        return res.status(201).send(this.calendarService.updateCalendarName(calendarId, calendarName));
+        this.calendarService.updateCalendarName(calendarId, calendarName)
+            .then((result) => {
+                res.status(201).send(result);
+            })
+            .catch((error) => {
+                next(error);
+            });
 
     }
 
-    deleteCalendar = (req, res) => {
+    deleteCalendar = (req: Request, res: Response, next: NextFunction) => {
         const calendarId = req.body.calendarId
         // TODO: sanitize 
-        const calendarDeleted = this.calendarService.deleteCalendar(calendarId)
-        return res.status(201).send(calendarDeleted);
+        this.calendarService.deleteCalendar(calendarId)
+            .then((result) => {
+                res.status(201).send(result);
+            })
+            .catch((error) => {
+                next(error);
+            });;
     }
 }

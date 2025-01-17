@@ -1,13 +1,9 @@
 export class Calendar {
-    private id: number;
+    private id!: number;
     private name: string;
 
     constructor(name: string) {
         this.name = name;
-    }
-
-    private generateId(): string {
-        return crypto.randomUUID();
     }
 
     public setId(id: number) {

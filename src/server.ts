@@ -2,10 +2,13 @@ import express, { Request, Response, NextFunction } from 'express';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import { log } from './utils/logger'
-import router from "./routes/mero.routes";
 import { ONE_HUNDRED, ONE_THOUSAND, SIXTY } from './utils/constants';
 var bodyParser = require('body-parser')
-import errorMiddleware from './routes/middleware.error';
+import CalendarRouter from './components/calendar/calendar.route'
+import { createCalendarController, createCalendarEntryController } from './components/manager'
+import CalendarEntryRouter from './components/calendar-entry/calendar-entry.route';
+import { CalendarController } from './components/calendar/calendar.controller';
+import { CalendarEntryController } from './components/calendar-entry/calendar-entry.controller';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,21 +32,26 @@ interface ServerOptions {
 export class Server {
     private readonly app = express();
     private readonly port: number;
+    private calendarController: CalendarController
+    private calendarRouter: CalendarRouter
+    private calendarEntryController: CalendarEntryController
+    private calendarEntryRouter: CalendarEntryRouter
 
     constructor(options: ServerOptions) {
         const { port } = options;
         this.port = port;
-        this.initializeRoutes()
-        // this.seedDB()F
+        this.initializeRoutes();
+        this.calendarController = createCalendarController();
+        this.calendarRouter = new CalendarRouter(this.calendarController);
+
+        this.calendarEntryController = createCalendarEntryController();
+        this.calendarEntryRouter = new CalendarEntryRouter(this.calendarEntryController);
     }
 
-    private seedDB() {
-        // seedDatabase().catch((error) => log(error));
-    }
     private initializeRoutes() {
-        this.app.use(errorHandler);
         this.app.use(bodyParser.json());
-        this.app.use(router);
+        this.app.use(this.calendarRouter.getRouter());
+        this.app.use(this.calendarEntryRouter.getRouter());
         this.app.use(errorHandler);
     }
 

@@ -20,7 +20,8 @@ model CalendarEntry {
     id          Int      @id @default(autoincrement())
     title       String
     start       DateTime @db.Timestamptz
-    duration    String
+    duration    Int
+    end         DateTime @db.Timestamptz
     id_calendar Int
     calendar    Calendar @relation(fields: [id_calendar], references: [id])
 

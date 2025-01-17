@@ -1,26 +1,14 @@
+import { CalendarService } from './calendar/calendar.service';
+import { CalendarController } from './calendar/calendar.controller';
 
-import STATUSES from "../utils/statuses"
-import { ControllerCalendar } from "./calendar/calendar.controller";
-export class WalletManager {
-    private calendarController: ControllerCalendar;
+import { CalendarEntryService } from './calendar-entry/calendar-entry.service';
+import { CalendarEntryController } from './calendar-entry/calendar-entry.controller'
 
-    constructor() {
-        this.calendarController = new ControllerCalendar();
-    }
-
-    async createCalendar(name: string): Promise<[string]> {
-        const result = await this.calendarController.createCalendar(name);
-        if (result) {
-            return [STATUSES.CREATED];
-        } else {
-            return [STATUSES.CANNOT_CREATE]
-        }
-    }
-    async getCalendar(calendarId: string): Promise<[string]> {
-        const calendar = await this.calendarController.getCalendar(calendarId);
-        if (!calendar) {
-            return Promise.reject(new Error('Calendar not found'));
-        }
-        return [calendar.name]
-    }
+export function createCalendarController(): CalendarController {
+    const calendarService = new CalendarService();
+    return new CalendarController(calendarService);
+}
+export function createCalendarEntryController(): CalendarEntryController {
+    const calendarEntryService = new CalendarEntryService();
+    return new CalendarEntryController(calendarEntryService);
 }

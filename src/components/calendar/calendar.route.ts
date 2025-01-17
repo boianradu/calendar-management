@@ -1,14 +1,14 @@
 // src/components/user/user.router.js
 import express from 'express';
-import { ControllerCalendar } from './calendar.controller';
+import { CalendarController } from './calendar.controller';
 
 class CalendarRouter {
-    public calendarController: ControllerCalendar
-    constructor(calendarController) {
+    public calendarController: CalendarController
+    constructor(calendarController: CalendarController) {
         this.calendarController = calendarController;
     }
 
-    getRouter() {
+    public getRouter() {
         const router = express.Router();
         router.route('/calendars').post(this.calendarController.createCalendar);
         router.route('/calendars:/calendarId').get(this.calendarController.getCalendar);

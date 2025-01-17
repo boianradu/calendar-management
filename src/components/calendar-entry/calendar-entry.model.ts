@@ -1,19 +1,18 @@
-// calendar-entry.ts
-
-import { Duration } from 'luxon';
+// calendar-entry.ts 
 
 export class CalendarEntry {
-    public id: number;
+    public id!: number;
     public title: string;
     public start: Date;
-    public duration: Duration;
-    public id_calendar: number
-    public name_calendar: string
+    public end: Date;
+    public duration: number;
+    public id_calendar!: number
 
-    constructor(title: string, start: Date, duration: Duration) {
+    constructor(title: string, start: Date, duration: number) {
         this.title = title;
         this.start = start;
         this.duration = duration;
+        this.end = new Date(start.getTime() + duration * 60000)
     }
 
 
@@ -29,16 +28,16 @@ export class CalendarEntry {
         this.start = start;
     }
 
-    public updateDuration(duration: Duration): void {
+    public updateDuration(duration: number): void {
         this.duration = duration;
     }
 
-    public toJSON(): { id: number; title: string; start: string; duration: string, id_calendar: number } {
+    public toJSON(): { id: number; title: string; start: string; duration: number, id_calendar: number } {
         return {
             id: this.id,
             title: this.title,
             start: this.start.toISOString(),
-            duration: this.duration.toISO(),
+            duration: this.duration,
             id_calendar: this.id_calendar
         };
     }

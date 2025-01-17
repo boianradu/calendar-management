@@ -51,12 +51,12 @@ export class CalendarService {
         }
     }
 
-    async updateCalendarName(calendarId: number, newName: string): Promise<Calendar | null> {
+    async updateCalendarName(calendarId: number, newName: string): Promise<number> {
         try {
             let calendar = await this.getCalendar(calendarId)
             if (calendar == null) {
                 console.log("Calendar doesn't exist")
-                return null
+                return -1
             }
             const calendarResult = await prisma.calendar.update({
                 where: {
@@ -66,14 +66,14 @@ export class CalendarService {
                     name: newName
                 }
             });
-            return calendarResult;
+            return calendarResult.id;
         } catch (error) {
             if (error instanceof Error) {
                 console.error("Failed to update calendar name:", error.message);
             } else {
                 console.error("An unknown error occurred");
             }
-            return null;
+            return -1;
         }
     }
 
@@ -83,26 +83,26 @@ export class CalendarService {
             let calendar = await this.getCalendar(calendarId)
             if (calendar == null) {
                 console.log("Calendar doesn't exist")
-                return null
+                return false
             }
             const calendarResult = await prisma.calendar.delete({
                 where: {
                     id: calendarId,
                 }
             });
-            const calendarEntryResult = await prisma.CalendarEntry.delete({
+            const calendarEntryResult = await prisma.calendarEntry.deleteMany({
                 where: {
                     id_calendar: calendarId,
                 }
             });
-            return calendarResult + calendarEntryResult > 0;
+            return calendarResult != null && calendarEntryResult.count > 0;
         } catch (error) {
             if (error instanceof Error) {
                 console.error("Failed to delete calendar ", error.message);
             } else {
                 console.error("An unknown error occurred");
             }
-            return null;
+            return false;
         }
     }
 }
