@@ -12,6 +12,11 @@ npx prisma migrate dev --name init
 npx prisma migrate deploy
 ```
 
+## Run for end to end tests
+```
+newman run .\Web-API.postman-meta-fill.json --verbose 
+```
+
 ## Helper for windows
 ```
 net stop winnat

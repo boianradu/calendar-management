@@ -1,6 +1,6 @@
 // calendar.controller.ts
 import { CalendarEntry } from "./calendar-entry.model";
-import { prisma } from "../../db/db";
+import { prisma } from "../../../db";
 
 
 export class CalendarEntryService {
@@ -36,12 +36,14 @@ export class CalendarEntryService {
     async getCalendarEntries(calendarId: number): Promise<CalendarEntry[] | null> {
         try {
             const ceRes = await prisma.calendarEntry.findMany({
-                where: { id_calendar: calendarId }
+                where: {
+                    id_calendar: parseInt(calendarId.toString())
+                }
             });
 
             if (ceRes.length > 0) {
                 // Map the results to CalendarEntry objects
-                return ceRes.map(entry => {
+                return ceRes.map((entry) => {
                     let c = new CalendarEntry(entry.title, entry.start, entry.duration);
                     c.setId(entry.id); // Set the ID of the calendar entry (if needed)
                     return c;

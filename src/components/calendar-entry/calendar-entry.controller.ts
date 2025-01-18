@@ -15,7 +15,7 @@ export class CalendarEntryController {
         // TODO: sanitize 
         this.ceService.createCalendarEntry(title, start, duration, calendarId)
             .then((result) => {
-                res.status(201).send(result);
+                res.sendStatus(201).send(result);
             })
             .catch((error) => {
                 next(error);
@@ -24,7 +24,7 @@ export class CalendarEntryController {
 
     getCalendarEntries = (req: Request, res: Response) => {
         const calendarId = req.body.calendarId
-        res.status(200).send(this.ceService.getCalendarEntries(calendarId));
+        res.sendStatus(200).send(this.ceService.getCalendarEntries(calendarId));
     }
 
 
@@ -34,14 +34,14 @@ export class CalendarEntryController {
         const duration = req.body.duration
         const calendarId = req.body.calendarId
 
-        res.status(200).send(this.ceService.updateCalendarEntry(calendarId, title));
+        res.sendStatus(200).send(this.ceService.updateCalendarEntry(calendarId, title));
     }
 
 
     deleteCalendarEntry = (req: Request, res: Response) => {
         const calendarEntryId = req.body.calendarId
 
-        res.status(200).send(this.ceService.getCalendarEntries(calendarEntryId));
+        res.sendStatus(200).send(this.ceService.getCalendarEntries(calendarEntryId));
     }
 
 }

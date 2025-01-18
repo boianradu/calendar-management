@@ -1,6 +1,6 @@
 // calendar.controller.ts
 import { Calendar } from "./calendar.model";
-import { prisma } from "../../db/db";
+import { prisma } from "../../../db";
 
 
 export class CalendarService {
@@ -32,7 +32,9 @@ export class CalendarService {
     async getCalendar(calendarId: number): Promise<Calendar | null> {
         try {
             const calendarResult = await prisma.calendar.findUnique({
-                where: { id: calendarId }
+                where: {
+                    id_calendar: parseInt(calendarId.toString())
+                }
             });
 
             if (calendarResult != null) {

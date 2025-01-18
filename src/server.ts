@@ -3,7 +3,7 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import { log } from './utils/logger'
 import { ONE_HUNDRED, ONE_THOUSAND, SIXTY } from './utils/constants';
-var bodyParser = require('body-parser')
+import bodyParser from 'body-parser';
 import CalendarRouter from './components/calendar/calendar.route'
 import { createCalendarController, createCalendarEntryController } from './components/manager'
 import CalendarEntryRouter from './components/calendar-entry/calendar-entry.route';
@@ -18,7 +18,7 @@ function errorHandler(err: any, req: Request, res: Response, next: NextFunction)
     console.error(`[${new Date().toISOString()}] Error:`, err.message);
 
     const statusCode = err.status || 500;
-    res.status(statusCode).json({
+    res.sendStatus(statusCode).json({
         error: true,
         message: err.message || 'Internal Server Error',
     });
@@ -40,12 +40,12 @@ export class Server {
     constructor(options: ServerOptions) {
         const { port } = options;
         this.port = port;
-        this.initializeRoutes();
         this.calendarController = createCalendarController();
         this.calendarRouter = new CalendarRouter(this.calendarController);
 
         this.calendarEntryController = createCalendarEntryController();
         this.calendarEntryRouter = new CalendarEntryRouter(this.calendarEntryController);
+        this.initializeRoutes();
     }
 
     private initializeRoutes() {
@@ -76,11 +76,3 @@ export class Server {
         });
     }
 }
-
-app.get('/', (req: Request, res: Response) => {
-    res.send('Calendar Management Server');
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});

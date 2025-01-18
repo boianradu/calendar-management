@@ -13,7 +13,7 @@ export class CalendarController {
         // TODO: sanitize  
         this.calendarService.createCalendar(name)
             .then((result) => {
-                res.status(201).send(result);
+                res.sendStatus(201).send(result);
             })
             .catch((error) => {
                 next(error);
@@ -26,7 +26,7 @@ export class CalendarController {
 
         this.calendarService.getCalendar(calendarId)
             .then((result) => {
-                res.status(201).send(result);
+                res.sendStatus(201).send(result);
             })
             .catch((error) => {
                 next(error);
@@ -39,7 +39,7 @@ export class CalendarController {
         // TODO: sanitize 
         this.calendarService.updateCalendarName(calendarId, calendarName)
             .then((result) => {
-                res.status(201).send(result);
+                res.sendStatus(201).send(result);
             })
             .catch((error) => {
                 next(error);
@@ -52,7 +52,7 @@ export class CalendarController {
         // TODO: sanitize 
         this.calendarService.deleteCalendar(calendarId)
             .then((result) => {
-                res.status(201).send(result);
+                res.sendStatus(201).send(result);
             })
             .catch((error) => {
                 next(error);

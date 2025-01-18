@@ -25,5 +25,5 @@ model CalendarEntry {
     id_calendar Int
     calendar    Calendar @relation(fields: [id_calendar], references: [id])
 
-    @@map("calendar_entries")
+    @@map("calendar_entry")
 }

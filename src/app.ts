@@ -1,7 +1,6 @@
-import { envs } from './db/env.db';
+import { ENVS } from '../env';
 import { Server } from './server';
 import { log } from './utils/logger';
-
 (() => {
     main();
 })();
@@ -9,8 +8,8 @@ import { log } from './utils/logger';
 function main(): void {
     log("Starting MERO")
     const server = new Server({
-        port: envs.DB_PORT,
-        apiPrefix: envs.API_PREFIX
+        port: ENVS.PORT,
+        apiPrefix: ENVS.API_PREFIX
     });
     void server.start();
 }
