@@ -1,5 +1,6 @@
 import { CalendarService } from "./calendar.service";
 import { Request, Response, NextFunction } from 'express';
+// import validator from 'validator';
 
 
 export class CalendarController {
@@ -10,13 +11,15 @@ export class CalendarController {
 
     createCalendar = (req: Request, res: Response, next: NextFunction) => {
         const name = req.body.name
-        // TODO: sanitize  
-        this.calendarService.createCalendar(name)
+        const date = new Date();
+        const isoString = date.toISOString();
+        const dateWithTz = new Date(isoString);
+        this.calendarService.createCalendar(name, dateWithTz)
             .then((result) => {
-                res.sendStatus(201).send(result);
+                return res.send(201).json(result);
             })
             .catch((error) => {
-                next(error);
+                return next(error);
             });
     }
 
@@ -26,7 +29,7 @@ export class CalendarController {
 
         this.calendarService.getCalendar(calendarId)
             .then((result) => {
-                res.sendStatus(201).send(result);
+                res.send(201).json(result);
             })
             .catch((error) => {
                 next(error);
@@ -39,7 +42,7 @@ export class CalendarController {
         // TODO: sanitize 
         this.calendarService.updateCalendarName(calendarId, calendarName)
             .then((result) => {
-                res.sendStatus(201).send(result);
+                res.send(201).send(result);
             })
             .catch((error) => {
                 next(error);
@@ -52,7 +55,7 @@ export class CalendarController {
         // TODO: sanitize 
         this.calendarService.deleteCalendar(calendarId)
             .then((result) => {
-                res.sendStatus(201).send(result);
+                res.send(201).send(result);
             })
             .catch((error) => {
                 next(error);

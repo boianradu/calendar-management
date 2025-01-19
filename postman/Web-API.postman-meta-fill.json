@@ -44,7 +44,7 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\"calendarId\": \"12345\", \"entry\": {\"title\": \"New Entry\", \"description\": \"This is a new entry\"}}"
+                    "raw": "{\"calendarId\": \"1\", \"title\": \"New Entry\", \"start\": \"Sat Jan 18 2025 23:02:56 GMT+0100\", \"duration\": \"60\", \"description\": \"This is a new entry\"}"
                 },
                 "url": {
                     "raw": "http://localhost:8080/calendars/:calendarId/entries",
@@ -77,7 +77,32 @@
                         "entries"
                     ]
                 }
-            }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "unique-test-id",
+                        "exec": [
+                            "pm.test(\"Status code is 200-Ok\", function () { pm.response.to.have.status(200); });",
+                            "pm.test(\"Payload is an array\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.be.an('array');",
+                            "});",
+                            "pm.test(\"Each entry has required fields\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    jsonData.forEach(function(entry) {",
+                            "        pm.expect(entry).to.have.property('id');",
+                            "        pm.expect(entry).to.have.property('title');",
+                            "        pm.expect(entry).to.have.property('start');",
+                            "        pm.expect(entry).to.have.property('end');",
+                            "    });",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
         },
         {
             "name": "Update Calendar Entry",

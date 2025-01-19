@@ -8,11 +8,12 @@ export class CalendarService {
     constructor() {
     }
 
-    async createCalendar(name: string): Promise<number> {
+    async createCalendar(name: string, created_at: Date): Promise<number> {
         try {
             const calendarResult = await prisma.calendar.create({
                 data: {
-                    name: name
+                    name: name,
+                    created_at: created_at
                 }
             });
             if (calendarResult != null) {
@@ -32,9 +33,7 @@ export class CalendarService {
     async getCalendar(calendarId: number): Promise<Calendar | null> {
         try {
             const calendarResult = await prisma.calendar.findUnique({
-                where: {
-                    id_calendar: parseInt(calendarId.toString())
-                }
+                where: { id: calendarId }
             });
 
             if (calendarResult != null) {

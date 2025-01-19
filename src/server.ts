@@ -14,15 +14,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
-    console.error(`[${new Date().toISOString()}] Error:`, err.message);
-
-    const statusCode = err.status || 500;
-    res.sendStatus(statusCode).json({
-        error: true,
-        message: err.message || 'Internal Server Error',
-    });
-}
+const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+    if (res.headersSent) {
+        return next(err); // Dacă headerele au fost trimise, delegă eroarea următorului middleware.
+    }
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+};
 
 interface ServerOptions {
     port: number;
@@ -50,6 +48,7 @@ export class Server {
 
     private initializeRoutes() {
         this.app.use(bodyParser.json());
+        this.app.use(express.urlencoded());
         this.app.use(this.calendarRouter.getRouter());
         this.app.use(this.calendarEntryRouter.getRouter());
         this.app.use(errorHandler);

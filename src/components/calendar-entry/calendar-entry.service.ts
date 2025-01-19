@@ -9,7 +9,11 @@ export class CalendarEntryService {
     }
 
     async createCalendarEntry(title: string, start: Date, duration: number, calendarId: number): Promise<number> {
+
         try {
+            if (!(start instanceof Date) || isNaN(start.getTime())) {
+                throw new Error("Invalid start date");
+            }
             const calendarEntryResult = await prisma.calendarEntry.create({
                 data: {
                     title: title,
@@ -25,7 +29,7 @@ export class CalendarEntryService {
             return -1;
         } catch (error) {
             if (error instanceof Error) {
-                console.error("Failed to create calendar:", error.message);
+                console.error("Failed to create calendar entry:", error.message);
             } else {
                 console.error("An unknown error occurred");
             }
@@ -109,7 +113,7 @@ export class CalendarEntryService {
         } catch (error) {
             if (error instanceof Error) {
                 console.error("Failed to update calendar entry:", error.message);
-                throw error; // Re-throw the error for the caller to handle
+                throw error;
             } else {
                 console.error("An unknown error occurred");
                 throw new Error("An unknown error occurred");

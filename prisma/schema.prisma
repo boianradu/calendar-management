@@ -8,10 +8,11 @@ datasource db {
 }
 
 model Calendar {
-    id      Int             @id @unique @default(autoincrement())
+    id         Int             @id @unique @default(autoincrement())
     // uuid    String          @id @default(uuid()) @db.Uuid
-    name    String
-    entries CalendarEntry[]
+    name       String
+    created_at DateTime        @db.Timestamptz
+    entries    CalendarEntry[]
 
     @@map("calendar")
 }
