@@ -1,6 +1,7 @@
 // calendar.controller.ts
 import { CalendarEntry } from "./calendar-entry.model";
 import { prisma } from "../../../db";
+import { Calendar } from "@prisma/client";
 
 
 export class CalendarEntryService {
@@ -118,6 +119,33 @@ export class CalendarEntryService {
                 console.error("An unknown error occurred");
                 throw new Error("An unknown error occurred");
             }
+        }
+    }
+    async deleteCalendarEntry(
+        entryId: number,
+    ): Promise<CalendarEntry | null> {
+        try {
+            const ceRes = await prisma.calendarEntry.delete({
+                where: { id: entryId },
+            });
+            if (ceRes) {
+
+                const calendarEntry = new CalendarEntry(
+                    ceRes.title,
+                    ceRes.start,
+                    ceRes.duration
+                );
+                return calendarEntry;
+            } else {
+                return null
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error("Calendar entry not found:", error.message);
+            } else {
+                console.error("An unknown error occurred");
+            }
+            return null;
         }
     }
 

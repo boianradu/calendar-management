@@ -10,10 +10,6 @@ import CalendarEntryRouter from './components/calendar-entry/calendar-entry.rout
 import { CalendarController } from './components/calendar/calendar.controller';
 import { CalendarEntryController } from './components/calendar-entry/calendar-entry.controller';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-
 const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
     if (res.headersSent) {
         return next(err); // Dacă headerele au fost trimise, delegă eroarea următorului middleware.

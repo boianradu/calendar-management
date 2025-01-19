@@ -2,6 +2,7 @@ import { CalendarEntryService } from './calendar-entry.service';
 import { Request, Response, NextFunction } from 'express';
 import { isAlphanumericAndSpaces } from '../../utils/utils';
 import { CalendarEntry } from '@prisma/client';
+import { HttpCode } from '../../utils/constants';
 
 export class CalendarEntryController {
     public ceService: CalendarEntryService
@@ -41,7 +42,6 @@ export class CalendarEntryController {
             if (calendarEntries == null) {
                 console.log("No calendar entries found");
             } else {
-
                 entryExists = calendarEntries.some(entry =>
                 (entry.start.getTime() <= start.getTime() + duration * 60000 &&
                     entry.end.getTime() >= start.getTime())
@@ -54,7 +54,7 @@ export class CalendarEntryController {
 
             // Create the calendar entry
             const result = await this.ceService.createCalendarEntry(title, start, duration, calendarId);
-            return res.status(201).json(result);
+            return res.status(HttpCode.CREATED).json(result);
 
         } catch (error) {
             next(error);
@@ -62,26 +62,63 @@ export class CalendarEntryController {
     };
 
 
-    getCalendarEntries = (req: Request, res: Response) => {
+    getCalendarEntries = async (req: Request, res: Response, next: NextFunction) => {
         const calendarId = req.body.calendarId
-        res.status(200).json(this.ceService.getCalendarEntries(calendarId));
+
+        if (isNaN(calendarId)) {
+            return next(new Error("Invalid calendar id"));
+        }
+        let calendarEntry: CalendarEntry[] | null = await this.ceService.getCalendarEntries(calendarId);
+        if (calendarEntry == null) {
+            res.status(404).send("Calendar entry not found");
+        }
+        res.status(200).json(calendarEntry);
     }
 
 
-    updateCalendarEntries = (req: Request, res: Response) => {
+    updateCalendarEntry = async (req: Request, res: Response, next: NextFunction) => {
+        const calendarId = req.body.calendarId
+
+        if (isNaN(calendarId)) {
+            return next(new Error("Invalid calendar id"));
+        }
+
+        const entryId = req.body.entryId
+
+        if (isNaN(entryId.getTime())) {
+            return next(new Error("Invalid calendar id"));
+        }
+
+
         const title = req.body.title
-        const start = req.body.start
-        const duration = req.body.duration
-        const calendarId = req.body.calendarId
+        if (!isAlphanumericAndSpaces(title)) {
+            return next(new Error("Invalid title"));
+        }
 
-        res.send(200).json(this.ceService.updateCalendarEntry(calendarId, title));
+
+        const calendarEntryUpdated: CalendarEntry | null = await this.ceService.updateCalendarEntry(calendarId, { title: "" }, false);
+
+        if (calendarEntryUpdated == null) {
+            res.status(404).send("Calendar update not working");
+        }
+        res.status(200).json(calendarEntryUpdated);
     }
 
 
-    deleteCalendarEntry = (req: Request, res: Response) => {
+    deleteCalendarEntry = async (req: Request, res: Response, next: NextFunction) => {
         const calendarEntryId = req.body.calendarId
 
-        res.send(200).send(this.ceService.getCalendarEntries(calendarEntryId));
+        if (isNaN(calendarEntryId.getTime())) {
+            return next(new Error("Invalid calendar id"));
+        }
+
+        const calendarEntryDeleted: CalendarEntry | null = await this.ceService.deleteCalendarEntry(calendarEntryId);
+
+        if (calendarEntryDeleted == null) {
+            res.status(404).send("Calendar entry not found");
+        }
+
+        res.send(200).send(calendarEntryDeleted);
     }
 
 }

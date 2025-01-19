@@ -8,7 +8,7 @@ export class CalendarService {
     constructor() {
     }
 
-    async createCalendar(name: string, created_at: Date): Promise<number> {
+    async createCalendar(name: string, created_at: Date): Promise<number | null> {
         try {
             const calendarResult = await prisma.calendar.create({
                 data: {
@@ -19,14 +19,14 @@ export class CalendarService {
             if (calendarResult != null) {
                 return calendarResult.id;
             }
-            return -1;
+            return null;
         } catch (error) {
             if (error instanceof Error) {
                 console.error("Failed to create calendar:", error.message);
             } else {
                 console.error("An unknown error occurred");
             }
-            return -1;
+            return null;
         }
     }
 
@@ -52,12 +52,12 @@ export class CalendarService {
         }
     }
 
-    async updateCalendarName(calendarId: number, newName: string): Promise<number> {
+    async updateCalendarName(calendarId: number, newName: string): Promise<number | null> {
         try {
             let calendar = await this.getCalendar(calendarId)
             if (calendar == null) {
                 console.log("Calendar doesn't exist")
-                return -1
+                return null
             }
             const calendarResult = await prisma.calendar.update({
                 where: {
@@ -74,7 +74,7 @@ export class CalendarService {
             } else {
                 console.error("An unknown error occurred");
             }
-            return -1;
+            return null;
         }
     }
 
