@@ -57,7 +57,7 @@ export class CalendarEntryController {
             return res.status(HttpCode.CREATED).json(result);
 
         } catch (error) {
-            next(error);
+            return next(new Error("Error creating calendar"));
         }
     };
 
