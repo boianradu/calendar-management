@@ -25,7 +25,8 @@
     "include": [
         "src/**/*",
         "env.ts",
-        "db.ts"
+        "db.ts",
+        ".env"
     ],
     "target": "ES6"
 }

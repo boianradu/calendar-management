@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
+console.log(process.env.DB_HOST);
 
 // Construct the database URL dynamically from environment variables
 const databaseUrl = `postgresql://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}?schema=calendar`;

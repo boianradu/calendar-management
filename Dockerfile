@@ -10,6 +10,7 @@ RUN npm run build
 FROM node:18-alpine
 WORKDIR /app
 COPY --from=build /app/dist ./dist
+COPY .env /app/.env
 COPY package.json package-lock.json ./
 RUN npm install --production
 EXPOSE 8080

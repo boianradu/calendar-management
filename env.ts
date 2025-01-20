@@ -1,6 +1,7 @@
 
 import dotenv from 'dotenv';
 dotenv.config();
+console.log("envts:", process.env.DB_HOST);
 
 import envVar from 'env-var';
 // ENV variables to connect to the DB
