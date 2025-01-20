@@ -50,12 +50,11 @@ export class CalendarEntryController {
             }
 
             if (entryExists) {
-                return res.status(409).send("Overlapping event");
+                res.status(409).send("Overlapping event");
             }
-
             // Create the calendar entry
             const result = await this.ceService.createCalendarEntry(title, start, duration, calendarId);
-            return res.status(HttpCode.CREATED).json(result);
+            res.status(HttpCode.CREATED).json(result);
 
         } catch (error) {
             return next({ status: 500, message: "Internal server error" });
