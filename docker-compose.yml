@@ -1,18 +1,45 @@
 version: '3.8'
+
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "8080:8080"
+    env_file:
+      - .env
     environment:
       - NODE_ENV=development
+      - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - db
+      - migrate
+    command: npm run start
+
   db:
     image: postgres:17.2-alpine
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: calendar_db
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_DATABASE}
     ports:
       - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  migrate:
+    image: node:18-alpine # Lightweight Node.js image to run Prisma CLI
+    working_dir: /app
+    volumes:
+      - .:/app # Mount your project directory into the container
+    env_file:
+      - .env
+    entrypoint: [ "sh", "-c" ]
+    command: >
+      npm install && npx prisma migrate deploy
+
+volumes:
+  db-data:

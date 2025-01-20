@@ -10,30 +10,31 @@ export class CalendarEntryController {
         this.ceService = ceService;
     }
 
-    createCalendarEntry = async (req: Request, res: Response, next: NextFunction) => {
+    createCalendarEntry = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             // title
             const title: string = req.body.title;
-            if (!isAlphanumericAndSpaces(title)) {
-                return next(new Error("Invalid title"));
+            if (!title || !isAlphanumericAndSpaces(title)) {
+                return next({ status: 400, message: "Invalid title" });
             }
 
             // date
             const start: Date = new Date(req.body.start);
-            if (isNaN(start.getTime())) {
-                return next(new Error("Invalid date"));
+            if (!start || isNaN(start.getTime())) {
+                return next({ status: 400, message: "Invalid date" });
             }
 
             // duration
             const duration: number = parseInt(req.body.duration, 10);
-            if (isNaN(duration)) {
-                return next(new Error("Invalid duration"));
+            if (!duration || isNaN(duration)) {
+                return next({ status: 400, message: "Invalid duration" });
             }
 
             // calendar id
             const calendarId: number = parseInt(req.params.calendarId, 10);
-            if (isNaN(calendarId)) {
-                return next(new Error("Invalid calendar ID"));
+            if (!calendarId || isNaN(calendarId)) {
+                return next({ status: 400, message: "Invalid calendar id" });
+
             }
 
             // Check for overlapping events
@@ -57,68 +58,82 @@ export class CalendarEntryController {
             return res.status(HttpCode.CREATED).json(result);
 
         } catch (error) {
-            return next(new Error("Error creating calendar"));
+            return next({ status: 500, message: "Internal server error" });
+        } finally {
+            return Promise.resolve();
         }
     };
 
 
-    getCalendarEntries = async (req: Request, res: Response, next: NextFunction) => {
-        const calendarId = req.body.calendarId
+    getCalendarEntries = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const calendarId = req.body.calendarId
 
-        if (isNaN(calendarId)) {
-            return next(new Error("Invalid calendar id"));
+            if (!calendarId || isNaN(calendarId)) {
+                return next({ status: 400, message: "Invalid calendar id" });
+            }
+            let calendarEntry: CalendarEntry[] | null = await this.ceService.getCalendarEntries(calendarId);
+            if (calendarEntry == null) {
+                res.status(404).send("Calendar entry not found");
+            }
+            res.status(200).json(calendarEntry);
+        } catch (error) {
+
+            return next({ status: 500, message: "Internal server error" });
         }
-        let calendarEntry: CalendarEntry[] | null = await this.ceService.getCalendarEntries(calendarId);
-        if (calendarEntry == null) {
-            res.status(404).send("Calendar entry not found");
-        }
-        res.status(200).json(calendarEntry);
     }
 
 
     updateCalendarEntry = async (req: Request, res: Response, next: NextFunction) => {
-        const calendarId = req.body.calendarId
+        try {
+            const calendarId = req.body.calendarId
 
-        if (isNaN(calendarId)) {
-            return next(new Error("Invalid calendar id"));
+            if (!calendarId || isNaN(calendarId)) {
+                return next({ status: 400, message: "Invalid calendar id" });
+            }
+
+            const entryId = req.body.entryId
+
+            if (!entryId || isNaN(entryId)) {
+                return next({ status: 400, message: "Invalid calendar entry id" });
+            }
+
+
+            const title = req.body.title
+            if (!title || !isAlphanumericAndSpaces(title)) {
+                return next({ status: 400, message: "Invalid title" });
+            }
+
+            const calendarEntryUpdated: CalendarEntry | null = await this.ceService.updateCalendarEntry(entryId, { title: title }, false);
+
+            if (calendarEntryUpdated == null) {
+                res.status(404).send("Calendar update not working");
+            }
+            res.status(200).json(calendarEntryUpdated);
+        } catch (error) {
+            return next({ status: 500, message: "Internal server error" + error });
         }
-
-        const entryId = req.body.entryId
-
-        if (isNaN(entryId.getTime())) {
-            return next(new Error("Invalid calendar id"));
-        }
-
-
-        const title = req.body.title
-        if (!isAlphanumericAndSpaces(title)) {
-            return next(new Error("Invalid title"));
-        }
-
-
-        const calendarEntryUpdated: CalendarEntry | null = await this.ceService.updateCalendarEntry(calendarId, { title: "" }, false);
-
-        if (calendarEntryUpdated == null) {
-            res.status(404).send("Calendar update not working");
-        }
-        res.status(200).json(calendarEntryUpdated);
     }
 
 
     deleteCalendarEntry = async (req: Request, res: Response, next: NextFunction) => {
-        const calendarEntryId = req.body.calendarId
+        try {
+            const calendarEntryId = req.body.entryId
 
-        if (isNaN(calendarEntryId.getTime())) {
-            return next(new Error("Invalid calendar id"));
+            if (!calendarEntryId || isNaN(calendarEntryId)) {
+                return next({ status: 400, message: "Invalid calendar entry id" });
+            }
+
+            const calendarEntryDeleted: CalendarEntry | null = await this.ceService.deleteCalendarEntry(calendarEntryId);
+
+            if (calendarEntryDeleted == null) {
+                res.status(404).send("Calendar entry not found");
+            }
+
+            res.status(204).send(calendarEntryDeleted);
+        } catch (error) {
+            return next({ status: 500, message: "Internal server error" });
         }
-
-        const calendarEntryDeleted: CalendarEntry | null = await this.ceService.deleteCalendarEntry(calendarEntryId);
-
-        if (calendarEntryDeleted == null) {
-            res.status(404).send("Calendar entry not found");
-        }
-
-        res.send(200).send(calendarEntryDeleted);
     }
 
 }

@@ -46,13 +46,13 @@ describe('CalendarController', () => {
     describe('createCalendar', () => {
         it('should create a calendar and return the response', async () => {
             req.body.name = 'Valid Name';
-            calendarService.createCalendar.mockResolvedValue(1); // Returning just the id, as per the type.
+            calendarService.createCalendar.mockResolvedValue(1);
 
             await calendarController.createCalendar(req as Request, res as Response, next);
 
             expect(calendarService.createCalendar).toHaveBeenCalledWith('Valid Name', expect.any(Date));
             expect(res.status).toHaveBeenCalledWith(HttpCode.CREATED);
-            expect(res.json).toHaveBeenCalledWith(1); // Matching the expected return value.
+            expect(res.json).toHaveBeenCalledWith(1);
         });
     });
 

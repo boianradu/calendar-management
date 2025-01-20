@@ -17,7 +17,7 @@ npx prisma migrate deploy
 newman run .\Web-API.postman-meta-fill.json --verbose 
 ```
 
-## Helper for windows
+## Helper for windows ports issues
 ```
 net stop winnat
 net start winnat

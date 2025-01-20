@@ -3,11 +3,17 @@ import { CalendarEntryService } from './calendar-entry.service';
 import { Request, Response, NextFunction } from 'express';
 import { HttpCode } from '../../utils/constants';
 import { CalendarEntry } from './calendar-entry.model';
+import { CalendarController } from '../calendar/calendar.controller';
+import { CalendarService } from '../calendar/calendar.service';
 import { PrismaClient } from '@prisma/client';
+import { error } from 'console';
 
 jest.mock('./calendar-entry.service');
+jest.mock('../calendar/calendar.service');
 
 describe('CalendarEntryController', () => {
+    let calendarController: CalendarController;
+    let calendarService: jest.Mocked<CalendarService>;
     let calendarEntryController: CalendarEntryController;
     let calendarEntryService: jest.Mocked<CalendarEntryService>;
     let req: Partial<Request>;
@@ -20,6 +26,9 @@ describe('CalendarEntryController', () => {
     });
 
     beforeEach(() => {
+        calendarService = new CalendarService() as jest.Mocked<CalendarService>;
+        calendarController = new CalendarController(calendarService);
+
         calendarEntryService = new CalendarEntryService() as jest.Mocked<CalendarEntryService>;
         calendarEntryController = new CalendarEntryController(calendarEntryService);
 
@@ -59,7 +68,7 @@ describe('CalendarEntryController', () => {
 
             calendarEntryService.createCalendarEntry.mockResolvedValue(1);
 
-            await calendarEntryController.createCalendarEntry(req as Request, res as Response, next);
+            const ceResult = await calendarEntryController.createCalendarEntry(req as Request, res as Response, next);
 
             expect(calendarEntryService.createCalendarEntry).toHaveBeenCalledWith("Entry 1", dateEntry, 60, calendarEntryData.id_calendar);
             expect(res.status).toHaveBeenCalledWith(201);
@@ -71,90 +80,116 @@ describe('CalendarEntryController', () => {
                 title: '',
                 start: new Date(),
                 duration: 60,
-                calendarId: 1,
                 id_calendar: 1
             };
             req.body = calendarEntryData;
             req.params = {};
             req.params.calendarId = calendarEntryData.id_calendar.toString();
-            await expect(calendarEntryController.createCalendarEntry(req as Request, res as Response, next)).rejects.toThrow('Invalid title');
+            await calendarEntryController.createCalendarEntry(req as Request, res as Response, next);
+
+            expect(calendarEntryService.createCalendarEntry).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('getCalendarEntries', () => {
+        it('should retrieve a list of calendar entries', async () => {
+            const calendarId = "1";
+            req.body.calendarId = calendarId;
+            const ce1: CalendarEntry = new CalendarEntry('Entry 1', new Date(), 60);
+            const ce2: CalendarEntry = new CalendarEntry('Entry 2', new Date(), 75);
+            calendarEntryService.getCalendarEntries.mockResolvedValue([ce1, ce2]);
+
+            await calendarEntryController.getCalendarEntries(req as Request, res as Response, next);
+
+            expect(calendarEntryService.getCalendarEntries).toHaveBeenCalledWith(calendarId);
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith([ce1, ce2]);
+        });
+
+        it('should return an error if the calendar ID is invalid', async () => {
+            const calendarId = 'invalidId';
+            req.body.calendarId = calendarId;
+
+            await calendarEntryController.getCalendarEntries(req as Request, res as Response, next);
+            expect(next).toHaveBeenCalledWith({ status: 400, message: "Invalid calendar id" });
 
         });
     });
 
-    // describe('getCalendarEntries', () => {
-    //     it('should retrieve a list of calendar entries', async () => {
-    //         const calendarId = "1";
-    //         req.body.calendarId = calendarId;
-    //         const ce1: CalendarEntry = new CalendarEntry('Entry 1', new Date(), 60);
-    //         const ce2: CalendarEntry = new CalendarEntry('Entry 2', new Date(), 75);
-    //         calendarEntryService.getCalendarEntries.mockResolvedValue([ce1, ce2]);
+    describe('updateCalendarEntry', () => {
+        it('should update a calendar entry', async () => {
+            //create calendar
+            const calendarId = 1
+            req.body.name = 'Valid Name';
+            calendarService.createCalendar.mockResolvedValue(calendarId);
 
-    //         await calendarEntryController.getCalendarEntries(req as Request, res as Response, next);
+            await calendarController.createCalendar(req as Request, res as Response, next);
 
-    //         expect(calendarEntryService.getCalendarEntries).toHaveBeenCalledWith(calendarId);
-    //         expect(res.status).toHaveBeenCalledWith(200);
-    //         expect(res.json).toHaveBeenCalledWith([{ id: 1, title: 'Entry 1' }]);
-    //     });
+            expect(calendarService.createCalendar).toHaveBeenCalledWith('Valid Name', expect.any(Date));
+            expect(res.status).toHaveBeenCalledWith(HttpCode.CREATED);
+            expect(res.json).toHaveBeenCalledWith(calendarId);
 
-    //     it('should return an error if the calendar ID is invalid', async () => {
-    //         const calendarId = 'invalidId';
-    //         req.body.calendarId = calendarId;
+            // create calendar entry
+            const entryId = 1;
+            const updates = { title: 'Updated Entry' };
+            req.body = {}
+            req.body.entryId = entryId;
+            req.body.title = updates.title;
+            req.body.calendarId = calendarId;
+            const ceDate: Date = new Date()
+            const ce1: CalendarEntry = new CalendarEntry('Entry 1', ceDate, 60);
+            ce1.setId(entryId);
+            calendarEntryService.updateCalendarEntry.mockResolvedValue(ce1);
 
-    //         await calendarEntryController.getCalendarEntries(req as Request, res as Response, next);
+            await calendarEntryController.updateCalendarEntry(req as Request, res as Response, next);
 
-    //         expect(next).toHaveBeenCalledWith(new Error('Invalid calendar ID'));
-    //     });
-    // });
+            expect(res.status).toHaveBeenCalledWith(201);
+            expect(res.json).toHaveBeenCalledWith(entryId);
+        });
 
-    // describe('updateCalendarEntry', () => {
-    //     it('should update a calendar entry', async () => {
-    //         const entryId = 1;
-    //         const updates = { title: 'Updated Entry' };
-    //         req.body.entryId = entryId;
-    //         req.body = updates;
-    //         const ce1: CalendarEntry = new CalendarEntry('Entry 1', new Date(), 60);
-    //         calendarEntryService.updateCalendarEntry.mockResolvedValue(ce1);
+        it('should return an error if the entry ID is invalid', async () => {
+            const entryId = 'invalidId';
+            const calendarId = 1
+            req.body.name = 'Valid Name';
+            calendarService.createCalendar.mockResolvedValue(calendarId);
 
-    //         await calendarEntryController.updateCalendarEntry(req as Request, res as Response, next);
+            await calendarController.createCalendar(req as Request, res as Response, next);
 
-    //         expect(calendarEntryService.updateCalendarEntry).toHaveBeenCalledWith(entryId, updates);
-    //         expect(res.status).toHaveBeenCalledWith(200);
-    //         expect(res.json).toHaveBeenCalledWith({ id: 1, title: 'Updated Entry' });
-    //     });
+            expect(calendarService.createCalendar).toHaveBeenCalledWith('Valid Name', expect.any(Date));
+            expect(res.status).toHaveBeenCalledWith(HttpCode.CREATED);
+            expect(res.json).toHaveBeenCalledWith(calendarId);
+            req.body.entryId = entryId;
+            req.body.title = "New title";
+            req.body.calendarId = calendarId;
 
-    //     it('should return an error if the entry ID is invalid', async () => {
-    //         const entryId = 'invalidId';
-    //         req.body.entryId = entryId;
+            await calendarEntryController.updateCalendarEntry(req as Request, res as Response, next);
 
-    //         await calendarEntryController.updateCalendarEntry(req as Request, res as Response, next);
+            expect(next).toHaveBeenCalledWith({ "message": 'Invalid calendar entry id', "status": 400 });
+        });
+    });
 
-    //         expect(next).toHaveBeenCalledWith(new Error('Invalid entry ID'));
-    //     });
-    // });
+    describe('deleteCalendarEntry', () => {
+        it('should delete a calendar entry', async () => {
+            const entryId = 1;
+            req.body.entryId = entryId;
 
-    // describe('deleteCalendarEntry', () => {
-    //     it('should delete a calendar entry', async () => {
-    //         const entryId = 1;
-    //         req.body.entryId = entryId;
+            const ce1: CalendarEntry = new CalendarEntry('Entry 1', new Date(), 60);
+            calendarEntryService.deleteCalendarEntry.mockResolvedValue(ce1);
 
-    //         const ce1: CalendarEntry = new CalendarEntry('Entry 1', new Date(), 60);
-    //         calendarEntryService.deleteCalendarEntry.mockResolvedValue(ce1);
+            await calendarEntryController.deleteCalendarEntry(req as Request, res as Response, next);
 
-    //         await calendarEntryController.deleteCalendarEntry(req as Request, res as Response, next);
+            expect(calendarEntryService.deleteCalendarEntry).toHaveBeenCalledWith(entryId);
+            expect(res.status).toHaveBeenCalledWith(204);
+            expect(res.send).toHaveBeenCalledTimes(1);
+        });
 
-    //         expect(calendarEntryService.deleteCalendarEntry).toHaveBeenCalledWith(entryId);
-    //         expect(res.status).toHaveBeenCalledWith(204);
-    //         expect(res.send).toHaveBeenCalledTimes(1);
-    //     });
+        it('should return an error if the entry ID is invalid', async () => {
+            const entryId = 'invalidId';
+            req.body.entryId = entryId;
 
-    //     it('should return an error if the entry ID is invalid', async () => {
-    //         const entryId = 'invalidId';
-    //         req.body.entryId = entryId;
+            await calendarEntryController.deleteCalendarEntry(req as Request, res as Response, next);
 
-    //         await calendarEntryController.deleteCalendarEntry(req as Request, res as Response, next);
-
-    //         expect(next).toHaveBeenCalledWith(new Error('Invalid entry ID'));
-    //     });
-    // });
+            expect(next).toHaveBeenCalledWith({ "message": 'Invalid calendar entry id', "status": 400 });
+        });
+    });
 });
