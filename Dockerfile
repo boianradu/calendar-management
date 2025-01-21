@@ -14,10 +14,11 @@ COPY .env.docker.dev /app/.env
 COPY ./scripts/waiter.sh /usr/local/bin/waiter
 RUN chmod +x /usr/local/bin/waiter
 COPY package.json package-lock.json ./
-COPY ./prisma/schema.prisma /app/prisma/schema.prisma
+COPY ./prisma /app/prisma
 RUN ls -lah /app 
 RUN pwd
 RUN npm install
 RUN npx prisma generate 
+RUN npx prisma migrate deploy
 EXPOSE 8080
-CMD ["npm", "start"]
+CMD ["npm", "start-docker"]

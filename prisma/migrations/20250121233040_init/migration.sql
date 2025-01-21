@@ -1,14 +1,12 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "calendar" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "duration" INTEGER NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
 
-  - You are about to drop the `calendar_entries` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE "calendar_entries" DROP CONSTRAINT "calendar_entries_id_calendar_fkey";
-
--- DropTable
-DROP TABLE "calendar_entries";
+    CONSTRAINT "calendar_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "calendar_entry" (
@@ -21,6 +19,9 @@ CREATE TABLE "calendar_entry" (
 
     CONSTRAINT "calendar_entry_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "calendar_id_key" ON "calendar"("id");
 
 -- AddForeignKey
 ALTER TABLE "calendar_entry" ADD CONSTRAINT "calendar_entry_id_calendar_fkey" FOREIGN KEY ("id_calendar") REFERENCES "calendar"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

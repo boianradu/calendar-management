@@ -44,7 +44,7 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\"calendarId\": \"1\", \"title\": \"New Entry\", \"start\": \"Sat Jan 18 2025 23:02:56 GMT+0100\", \"duration\": \"60\", \"description\": \"This is a new entry\"}"
+                    "raw": "{\"calendarId\": \"4\", \"title\": \"New Entry\", \"start\": \"Sat Jan 18 2025 23:02:56 GMT+0100\", \"duration\": \"60\", \"description\": \"This is a new entry\"}"
                 },
                 "url": {
                     "raw": "http://localhost:8080/calendars/:calendarId/entries",
@@ -116,7 +116,7 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\"calendarId\": \"12345\", \"entryId\": \"67890\", \"entry\": {\"title\": \"Updated Entry\", \"description\": \"This is an updated entry\"}}"
+                    "raw": "{\"calendarId\": \"4\", \"entryId\": \"67890\", \"entry\": {\"title\": \"Updated Entry\", \"description\": \"This is an updated entry\"}}"
                 },
                 "url": {
                     "raw": "http://localhost:8080/calendars/:calendarId/entries/:entryId",

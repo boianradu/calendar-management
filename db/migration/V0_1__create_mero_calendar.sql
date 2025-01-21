@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS calendar (
+    id SERIAL PRIMARY KEY,
+    title TEXT,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_calendar INT
+);

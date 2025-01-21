@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS calendar_entry (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    start TIMESTAMP WITH TIME ZONE NOT NULL,
+    duration INTERVAL NOT NULL,
+end TIMESTAMP WITH TIME ZONE NOT NULL,
+id_calendar INT,
+FOREIGN KEY (id_calendar) REFERENCES calendar(id) ON DELETE
+SET NULL
+);
