@@ -2,6 +2,13 @@
 
 # How to run
 ## Start the services
+
+### Docker compose 
+``` sh
+docker compose up -d
+```
+
+### Locally
 Create the .env file from the .env.example file
 ``` sh
 npm run db:create
@@ -23,9 +30,19 @@ net stop winnat
 net start winnat
 ```
 
-## When doing prisma updates
+## Prisma updates
 ```
 npx prisma migrate dev --name <name_description>
 
 ```
+
+
+# Tech stack
+Nodejs with express
+Postgresql & typescript with prisma migrations 
+Docker
+Docker compose
+Bash scripting
+Newman for testing requests
+Jest for unit tests
 

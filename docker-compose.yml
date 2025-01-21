@@ -32,5 +32,15 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./dist:/app
+    depends_on:
+      - app
+
 volumes:
   db-data:

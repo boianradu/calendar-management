@@ -8,7 +8,7 @@
         "dev": "npx tsx src/app.ts",
         "build": "rimraf ./dist && tsc --rootDir ./src --outDir ./dist",
         "start-docker": "npx prisma migrate deploy && npm start",
-        "start": "node dist/app.js",
+        "start": "node app.js",
         "test-flag": "node --experimental-specifier-resolution=node jest",
         "test": "jest",
         "test:watch": "jest --watchAll",
