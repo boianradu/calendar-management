@@ -4,6 +4,7 @@
 ## Start the services
 
 ### Docker compose 
+Clone .env.docker file to .env.docker.dev and fill out the variables
 ``` sh
 docker compose up -d
 ```
