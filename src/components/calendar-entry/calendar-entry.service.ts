@@ -1,7 +1,6 @@
 // calendar.controller.ts
-import { CalendarEntry } from "./calendar-entry.model";
-import { prisma } from "../../../db";
-import { Calendar } from "@prisma/client";
+import { CalendarEntry } from "./calendar-entry.model.js";
+import { prisma } from "../../db.js";
 
 
 export class CalendarEntryService {
@@ -47,10 +46,9 @@ export class CalendarEntryService {
             });
 
             if (ceRes.length > 0) {
-                // Map the results to CalendarEntry objects
-                return ceRes.map((entry) => {
+                return ceRes.map((entry: { id: number; title: string; start: Date; duration: number; end: Date; id_calendar: number; }) => {
                     let c = new CalendarEntry(entry.title, entry.start, entry.duration);
-                    c.setId(entry.id); // Set the ID of the calendar entry (if needed)
+                    c.setId(entry.id);
                     return c;
                 });
             }

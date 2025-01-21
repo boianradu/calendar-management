@@ -1,8 +1,8 @@
-import { CalendarEntryService } from './calendar-entry.service';
+import { CalendarEntryService } from './calendar-entry.service.js';
 import { Request, Response, NextFunction } from 'express';
-import { isAlphanumericAndSpaces } from '../../utils/utils';
-import { CalendarEntry } from '@prisma/client';
-import { HttpCode } from '../../utils/constants';
+import { isAlphanumericAndSpaces } from '../../utils/utils.js';
+import { CalendarEntry } from './calendar-entry.model.js';
+import { HttpCode } from '../../utils/constants.js';
 
 export class CalendarEntryController {
     public ceService: CalendarEntryService

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { CalendarEntryController } from './calendar-entry.controller';
+import { CalendarEntryController } from './calendar-entry.controller.js';
 
 class CalendarEntryRouter {
     private router: Router;

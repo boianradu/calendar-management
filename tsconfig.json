@@ -16,17 +16,17 @@
         "lib": [
             "es2021"
         ],
-        "module": "esnext",
+        "module": "ESNext",
         "moduleResolution": "node",
-        "outDir": "dist",
+        "outDir": "./dist",
+        "rootDir": "./src",
         "strict": true,
-        "target": "es2021"
+        "target": "ESNext"
     },
     "include": [
         "src/**/*",
-        "env.ts",
-        "db.ts",
+        "src/env.ts",
+        "src/db.ts",
         ".env"
-    ],
-    "target": "ES6"
+    ]
 }

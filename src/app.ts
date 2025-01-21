@@ -1,6 +1,6 @@
-import { ENVS } from '../env';
-import { Server } from './server';
-import { log } from './utils/logger';
+import { ENVS } from './env.js';
+import { Server } from './server.js';
+import { log } from './utils/logger.js';
 (() => {
     main();
 })();

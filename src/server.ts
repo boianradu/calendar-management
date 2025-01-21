@@ -1,14 +1,14 @@
 import express, { Request, Response, NextFunction } from 'express';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
-import { log } from './utils/logger'
-import { ONE_HUNDRED, ONE_THOUSAND, SIXTY } from './utils/constants';
+import { log } from './utils/logger.js'
+import { ONE_HUNDRED, ONE_THOUSAND, SIXTY } from './utils/constants.js';
 import bodyParser from 'body-parser';
-import CalendarRouter from './components/calendar/calendar.route'
-import { createCalendarController, createCalendarEntryController } from './components/manager'
-import CalendarEntryRouter from './components/calendar-entry/calendar-entry.route';
-import { CalendarController } from './components/calendar/calendar.controller';
-import { CalendarEntryController } from './components/calendar-entry/calendar-entry.controller';
+import CalendarRouter from './components/calendar/calendar.route.js'
+import { createCalendarController, createCalendarEntryController } from './components/manager.js'
+import CalendarEntryRouter from './components/calendar-entry/calendar-entry.route.js';
+import { CalendarController } from './components/calendar/calendar.controller.js';
+import { CalendarEntryController } from './components/calendar-entry/calendar-entry.controller.js';
 
 const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
     if (res.headersSent) {

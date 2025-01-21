@@ -1,6 +1,5 @@
-// src/components/user/user.router.js
 import express from 'express';
-import { CalendarController } from './calendar.controller';
+import { CalendarController } from './calendar.controller.js';
 
 class CalendarRouter {
     public calendarController: CalendarController

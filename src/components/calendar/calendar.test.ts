@@ -1,8 +1,8 @@
-import { CalendarController } from './calendar.controller';
-import { CalendarService } from './calendar.service';
-import { Calendar } from './calendar.model';
+import { CalendarController } from './calendar.controller.js';
+import { CalendarService } from './calendar.service.js';
+import { Calendar } from './calendar.model.js';
 import { Request, Response, NextFunction } from 'express';
-import { HttpCode } from '../../utils/constants';
+import { HttpCode } from '../../utils/constants.js';
 import { PrismaClient } from '@prisma/client';
 
 

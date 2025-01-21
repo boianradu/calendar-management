@@ -1,5 +1,3 @@
-// src/core/constants/index.ts
-
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 
 export const SIXTY = 60 as const;

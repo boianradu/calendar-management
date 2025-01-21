@@ -30,7 +30,6 @@ async function initialize() {
     }
 }
 
-// Initialize Prisma connection
 initialize();
 
 export { prisma };
