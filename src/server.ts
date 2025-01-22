@@ -14,8 +14,8 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
     if (res.headersSent) {
         return next(err); // Dacă headerele au fost trimise, delegă eroarea următorului middleware.
     }
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
+    console.log('Something went wrong!' + err.message)
+    res.status(500).send('Something went wrong!' + err.message);
 };
 
 interface ServerOptions {

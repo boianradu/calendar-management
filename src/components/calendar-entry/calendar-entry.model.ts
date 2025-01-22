@@ -20,6 +20,10 @@ export class CalendarEntry {
         this.id = id
     }
 
+    public setCalendarId(calendarId: number) {
+        this.id_calendar = calendarId
+    }
+
     public updateTitle(title: string): void {
         this.title = title;
     }

@@ -66,7 +66,7 @@ export class CalendarEntryController {
 
     getCalendarEntries = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const calendarId = req.body.calendarId
+            const calendarId = +req.params.calendarId
 
             if (!calendarId || isNaN(calendarId)) {
                 return next({ status: 400, message: "Invalid calendar id" });
@@ -74,24 +74,30 @@ export class CalendarEntryController {
             let calendarEntry: CalendarEntry[] | null = await this.ceService.getCalendarEntries(calendarId);
             if (calendarEntry == null) {
                 res.status(404).send("Calendar entry not found");
+            } else {
+                for (let i = 0; i < calendarEntry.length; i++) {
+                    calendarEntry[i].setCalendarId(calendarId);
+                }
+                console.log("Calendar entries are:", calendarEntry);
+                res.status(200).json(calendarEntry);
             }
-            res.status(200).json(calendarEntry);
         } catch (error) {
-
             return next({ status: 500, message: "Internal server error" });
+        } finally {
+            return Promise.resolve();
         }
     }
 
 
     updateCalendarEntry = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const calendarId = req.body.calendarId
+            const calendarId = +req.params.calendarId
 
             if (!calendarId || isNaN(calendarId)) {
                 return next({ status: 400, message: "Invalid calendar id" });
             }
 
-            const entryId = req.body.entryId
+            const entryId = +req.params.entryId
 
             if (!entryId || isNaN(entryId)) {
                 return next({ status: 400, message: "Invalid calendar entry id" });
@@ -117,7 +123,7 @@ export class CalendarEntryController {
 
     deleteCalendarEntry = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const calendarEntryId = req.body.entryId
+            const calendarEntryId = +req.params.entryId
 
             if (!calendarEntryId || isNaN(calendarEntryId)) {
                 return next({ status: 400, message: "Invalid calendar entry id" });

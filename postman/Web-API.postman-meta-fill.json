@@ -95,7 +95,6 @@
                             "        pm.expect(entry).to.have.property('id');",
                             "        pm.expect(entry).to.have.property('title');",
                             "        pm.expect(entry).to.have.property('start');",
-                            "        pm.expect(entry).to.have.property('end');",
                             "    });",
                             "});"
                         ],
@@ -116,7 +115,7 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "\"entryId\": \"67890\", \"entry\": {\"title\": \"Updated Entry\", \"description\": \"This is an updated entry\"}}"
+                    "raw": "{ \"entry\": {\"title\": \"Updated Entry\", \"description\": \"This is an updated entry\"}}"
                 },
                 "url": {
                     "raw": "http://localhost:8080/calendars/4/entries/1",

@@ -12,8 +12,8 @@ class CalendarEntryRouter {
     getRouter() {
         this.router.route('/calendars/:calendarId/entries').post(this.calendarEntryController.createCalendarEntry);
         this.router.route('/calendars/:calendarId/entries').get(this.calendarEntryController.getCalendarEntries);
-        this.router.route('/calendars/:calendarId/entries/:entrtyId').put(this.calendarEntryController.getCalendarEntries);
-        this.router.route('/calendars/:calendarId/entries/:entrtyId').delete(this.calendarEntryController.deleteCalendarEntry);
+        this.router.route('/calendars/:calendarId/entries/:entryId').put(this.calendarEntryController.getCalendarEntries);
+        this.router.route('/calendars/:calendarId/entries/:entryId').delete(this.calendarEntryController.deleteCalendarEntry);
         return this.router;
     }
 }

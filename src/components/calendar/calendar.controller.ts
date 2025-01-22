@@ -49,7 +49,7 @@ export class CalendarController {
 
     getCalendar = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const calendarId = req.body.calendarId
+            const calendarId = +req.params.calendarId
             if (isNaN(calendarId)) {
                 return next(new Error("Invalid calendar id"));
             }
@@ -69,7 +69,7 @@ export class CalendarController {
 
     updateCalendarName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const calendarId = req.body.calendarId
+            const calendarId = +req.params.calendarId
             const calendarName = req.body.name
 
             if (isNaN(calendarId)) {
@@ -97,7 +97,7 @@ export class CalendarController {
 
     deleteCalendar = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const calendarId = req.body.calendarId
+            const calendarId = +req.params.calendarId
             if (isNaN(calendarId)) {
                 return next(new Error("Invalid calendar id"));
             }

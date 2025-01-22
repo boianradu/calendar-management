@@ -28,6 +28,8 @@
         "@babel/plugin-proposal-decorators": "*",
         "@babel/preset-env": "^7.18.2",
         "@prisma/client": "^6.0.0",
+        "@swc/core": "^1.10.9",
+        "@swc/jest": "^0.2.37",
         "@types/compression": "^1.7.5",
         "@types/express": "^5.0.0",
         "@types/jest": "^29.5.14",
