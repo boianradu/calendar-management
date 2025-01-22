@@ -44,17 +44,17 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\"calendarId\": \"4\", \"title\": \"New Entry\", \"start\": \"Sat Jan 18 2025 23:02:56 GMT+0100\", \"duration\": \"60\", \"description\": \"This is a new entry\"}"
+                    "raw": "{\"title\": \"New Entry\", \"start\": \"Sat Jan 18 2025 23:02:56 GMT+0100\", \"duration\": \"60\", \"description\": \"This is a new entry\"}"
                 },
                 "url": {
-                    "raw": "http://localhost:8080/calendars/:calendarId/entries",
+                    "raw": "http://localhost:8080/calendars/4/entries",
                     "host": [
                         "localhost"
                     ],
                     "port": "8080",
                     "path": [
                         "calendars",
-                        ":calendarId",
+                        "4",
                         "entries"
                     ]
                 }
@@ -66,14 +66,14 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "http://localhost:8080/calendars/:calendarId/entries",
+                    "raw": "http://localhost:8080/calendars/4/entries",
                     "host": [
                         "localhost"
                     ],
                     "port": "8080",
                     "path": [
                         "calendars",
-                        ":calendarId",
+                        "4",
                         "entries"
                     ]
                 }
@@ -116,19 +116,19 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\"calendarId\": \"4\", \"entryId\": \"67890\", \"entry\": {\"title\": \"Updated Entry\", \"description\": \"This is an updated entry\"}}"
+                    "raw": "\"entryId\": \"67890\", \"entry\": {\"title\": \"Updated Entry\", \"description\": \"This is an updated entry\"}}"
                 },
                 "url": {
-                    "raw": "http://localhost:8080/calendars/:calendarId/entries/:entryId",
+                    "raw": "http://localhost:8080/calendars/4/entries/1",
                     "host": [
                         "localhost"
                     ],
                     "port": "8080",
                     "path": [
                         "calendars",
-                        ":calendarId",
+                        "4",
                         "entries",
-                        ":entryId"
+                        "1"
                     ]
                 }
             }
@@ -139,16 +139,16 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                    "raw": "http://localhost:8080/calendars/:calendarId/entries/:entryId",
+                    "raw": "http://localhost:8080/calendars/4/entries/1",
                     "host": [
                         "localhost"
                     ],
                     "port": "8080",
                     "path": [
                         "calendars",
-                        ":calendarId",
+                        "4",
                         "entries",
-                        ":entryId"
+                        "1"
                     ]
                 }
             }
