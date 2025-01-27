@@ -1,5 +1,5 @@
 import express from 'express';
-import { CalendarController } from './calendar.controller.js';
+import { CalendarController } from './calendar.controller';
 
 class CalendarRouter {
     public calendarController: CalendarController

@@ -1,8 +1,8 @@
-import { CalendarEntryService } from './calendar-entry.service.js';
+import { CalendarEntryService } from './calendar-entry.service';
 import { Request, Response, NextFunction } from 'express';
-import { isAlphanumericAndSpaces } from '../../utils/utils.js';
-import { CalendarEntry } from './calendar-entry.model.js';
-import { HttpCode } from '../../utils/constants.js';
+import { isAlphanumericAndSpaces } from '../../utils/utils';
+import { CalendarEntry } from './calendar-entry.model';
+import { HttpCode } from '../../utils/constants';
 
 export class CalendarEntryController {
     public ceService: CalendarEntryService

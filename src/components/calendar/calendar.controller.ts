@@ -1,7 +1,7 @@
-import { CalendarService } from "./calendar.service.js";
+import { CalendarService } from "./calendar.service";
 import { Request, Response, NextFunction } from 'express';
-import { isAlphanumericAndSpaces, isISOString } from '../../utils/utils.js';
-import { HttpCode } from '../../utils/constants.js';
+import { isAlphanumericAndSpaces, isISOString } from '../../utils/utils';
+import { HttpCode } from '../../utils/constants';
 
 export class CalendarController {
     public calendarService: CalendarService

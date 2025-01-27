@@ -1,5 +1,3 @@
-// calendar-entry.ts 
-
 export class CalendarEntry {
     public id!: number;
     public title: string;

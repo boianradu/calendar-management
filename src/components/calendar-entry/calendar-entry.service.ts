@@ -1,6 +1,6 @@
 // calendar.controller.ts
-import { CalendarEntry } from "./calendar-entry.model.js";
-import { prisma } from "../../db.js";
+import { CalendarEntry } from "./calendar-entry.model";
+import { prisma } from "../../db";
 
 
 export class CalendarEntryService {

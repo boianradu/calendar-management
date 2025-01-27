@@ -6,7 +6,6 @@ import { CalendarEntry } from './calendar-entry.model';
 import { CalendarController } from '../calendar/calendar.controller';
 import { CalendarService } from '../calendar/calendar.service';
 import { PrismaClient } from '@prisma/client';
-import { error } from 'console';
 
 jest.mock('./calendar-entry.service');
 jest.mock('../calendar/calendar.service');
