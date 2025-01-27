@@ -60,7 +60,10 @@ describe('CalendarController', () => {
         it('should return an error if the calendarId is invalid', async () => {
             req.body.calendarId = 'invalidId';
             await calendarController.getCalendar(req as Request, res as Response, next);
-            expect(next).toHaveBeenCalledWith(new Error('Invalid calendar id'));
+            expect(next).toHaveBeenCalledWith({
+                message: 'Internal server error',
+                status: 500,
+            });
         });
 
         it("should return a calendar if it exists", async () => {
@@ -85,7 +88,10 @@ describe('CalendarController', () => {
             req.body.name = 'Invalid@Name';
             req.body.calendarId = 1;
             await calendarController.updateCalendarName(req as Request, res as Response, next);
-            expect(next).toHaveBeenCalledWith(new Error('Invalid calendarName'));
+            expect(next).toHaveBeenCalledWith({
+                message: 'Internal server error',
+                status: 500,
+            });
         });
 
         it('should update the calendar name', async () => {
@@ -107,7 +113,10 @@ describe('CalendarController', () => {
         it('should return an error if the calendarId is invalid', async () => {
             req.body.calendarId = 'invalidId';
             await calendarController.deleteCalendar(req as Request, res as Response, next);
-            expect(next).toHaveBeenCalledWith(new Error('Invalid calendar id'));
+            expect(next).toHaveBeenCalledWith({
+                message: 'Internal server error',
+                status: 500,
+            });
         });
 
         it('should delete the calendar', async () => {

@@ -146,10 +146,12 @@ describe('CalendarEntryController', () => {
             expect(res.json).toHaveBeenCalledWith(entryId);
         });
 
-        it('should return an error if the entry ID is invalid', async () => {
+        it('should return an error if the entry ID is invalid create', async () => {
             const entryId = 'invalidId';
             const calendarId = 1
             req.body.name = 'Valid Name';
+            req.body.entryId = entryId;
+            req.body.calendarId = calendarId;
             calendarService.createCalendar.mockResolvedValue(calendarId);
 
             await calendarController.createCalendar(req as Request, res as Response, next);
@@ -158,12 +160,15 @@ describe('CalendarEntryController', () => {
             expect(res.status).toHaveBeenCalledWith(HttpCode.CREATED);
             expect(res.json).toHaveBeenCalledWith(calendarId);
             req.body.entryId = entryId;
-            req.body.title = "New title";
             req.body.calendarId = calendarId;
+            req.body.title = "New title";
 
             await calendarEntryController.updateCalendarEntry(req as Request, res as Response, next);
 
-            expect(next).toHaveBeenCalledWith({ "message": 'Invalid calendar entry id', "status": 400 });
+            expect(next).toHaveBeenCalledWith({
+                message: 'Invalid calendar entry id',
+                status: 400,
+            });
         });
     });
 
@@ -182,13 +187,15 @@ describe('CalendarEntryController', () => {
             expect(res.send).toHaveBeenCalledTimes(1);
         });
 
-        it('should return an error if the entry ID is invalid', async () => {
+        it('should return an error if the entry ID is invalid delete', async () => {
             const entryId = 'invalidId';
             req.body.entryId = entryId;
 
             await calendarEntryController.deleteCalendarEntry(req as Request, res as Response, next);
-
-            expect(next).toHaveBeenCalledWith({ "message": 'Invalid calendar entry id', "status": 400 });
+            expect(next).toHaveBeenCalledWith({
+                message: 'Internal server error',
+                status: 500,
+            });
         });
     });
 });

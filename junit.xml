@@ -1,82 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="15" failures="15" errors="0" time="3.593">
-  <testsuite name="CalendarEntryController" errors="0" failures="8" skipped="0" timestamp="2025-01-27T12:31:09" time="3.019" tests="8">
-    <testcase classname="CalendarEntryController createCalendarEntry should create a new calendar entry" name="CalendarEntryController createCalendarEntry should create a new calendar entry" time="0.008">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:24:9)</failure>
+<testsuites name="jest tests" tests="15" failures="7" errors="0" time="2.434">
+  <testsuite name="CalendarController" errors="0" failures="3" skipped="0" timestamp="2025-01-27T15:13:08" time="1.921" tests="7">
+    <testcase classname="CalendarController createCalendar should create a calendar and return the response" name="CalendarController createCalendar should create a calendar and return the response" time="0.011">
     </testcase>
-    <testcase classname="CalendarEntryController createCalendarEntry should return an error if the calendar entry data is invalid" name="CalendarEntryController createCalendarEntry should return an error if the calendar entry data is invalid" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:24:9)</failure>
+    <testcase classname="CalendarController getCalendar should return an error if the calendarId is invalid" name="CalendarController getCalendar should return an error if the calendarId is invalid" time="0.001">
     </testcase>
-    <testcase classname="CalendarEntryController getCalendarEntries should retrieve a list of calendar entries" name="CalendarEntryController getCalendarEntries should retrieve a list of calendar entries" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:24:9)</failure>
+    <testcase classname="CalendarController getCalendar should return a calendar if it exists" name="CalendarController getCalendar should return a calendar if it exists" time="0.003">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: 1
+
+Number of calls: 0
+    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:79:49)</failure>
     </testcase>
-    <testcase classname="CalendarEntryController getCalendarEntries should return an error if the calendar ID is invalid" name="CalendarEntryController getCalendarEntries should return an error if the calendar ID is invalid" time="0.001">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:24:9)</failure>
+    <testcase classname="CalendarController updateCalendarName should return an error if the name is invalid" name="CalendarController updateCalendarName should return an error if the name is invalid" time="0.001">
     </testcase>
-    <testcase classname="CalendarEntryController updateCalendarEntry should update a calendar entry" name="CalendarEntryController updateCalendarEntry should update a calendar entry" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:24:9)</failure>
+    <testcase classname="CalendarController updateCalendarName should update the calendar name" name="CalendarController updateCalendarName should update the calendar name" time="0.001">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: 1, &quot;Updated Name&quot;
+
+Number of calls: 0
+    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:106:56)</failure>
     </testcase>
-    <testcase classname="CalendarEntryController updateCalendarEntry should return an error if the entry ID is invalid" name="CalendarEntryController updateCalendarEntry should return an error if the entry ID is invalid" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:24:9)</failure>
+    <testcase classname="CalendarController deleteCalendar should return an error if the calendarId is invalid" name="CalendarController deleteCalendar should return an error if the calendarId is invalid" time="0.001">
     </testcase>
-    <testcase classname="CalendarEntryController deleteCalendarEntry should delete a calendar entry" name="CalendarEntryController deleteCalendarEntry should delete a calendar entry" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:24:9)</failure>
-    </testcase>
-    <testcase classname="CalendarEntryController deleteCalendarEntry should return an error if the entry ID is invalid" name="CalendarEntryController deleteCalendarEntry should return an error if the entry ID is invalid" time="0.001">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:24:9)</failure>
+    <testcase classname="CalendarController deleteCalendar should delete the calendar" name="CalendarController deleteCalendar should delete the calendar" time="0.001">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: 1
+
+Number of calls: 0
+    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:128:52)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="CalendarController" errors="0" failures="7" skipped="0" timestamp="2025-01-27T12:31:09" time="3.021" tests="7">
-    <testcase classname="CalendarController createCalendar should create a calendar and return the response" name="CalendarController createCalendar should create a calendar and return the response" time="0.007">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:20:9)</failure>
+  <testsuite name="CalendarEntryController" errors="0" failures="4" skipped="0" timestamp="2025-01-27T15:13:08" time="1.963" tests="8">
+    <testcase classname="CalendarEntryController createCalendarEntry should create a new calendar entry" name="CalendarEntryController createCalendarEntry should create a new calendar entry" time="0.012">
     </testcase>
-    <testcase classname="CalendarController getCalendar should return an error if the calendarId is invalid" name="CalendarController getCalendar should return an error if the calendarId is invalid" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:20:9)</failure>
+    <testcase classname="CalendarEntryController createCalendarEntry should return an error if the calendar entry data is invalid" name="CalendarEntryController createCalendarEntry should return an error if the calendar entry data is invalid" time="0.001">
     </testcase>
-    <testcase classname="CalendarController getCalendar should return a calendar if it exists" name="CalendarController getCalendar should return a calendar if it exists" time="0.001">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:20:9)</failure>
+    <testcase classname="CalendarEntryController getCalendarEntries should retrieve a list of calendar entries" name="CalendarEntryController getCalendarEntries should retrieve a list of calendar entries" time="0.002">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;1&quot;
+
+Number of calls: 0
+    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:103:61)</failure>
     </testcase>
-    <testcase classname="CalendarController updateCalendarName should return an error if the name is invalid" name="CalendarController updateCalendarName should return an error if the name is invalid" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:20:9)</failure>
+    <testcase classname="CalendarEntryController getCalendarEntries should return an error if the calendar ID is invalid" name="CalendarEntryController getCalendarEntries should return an error if the calendar ID is invalid" time="0.003">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+- Expected
++ Received
+
+  Object {
+-   &quot;message&quot;: &quot;Invalid calendar id&quot;,
+-   &quot;status&quot;: 400,
++   &quot;message&quot;: &quot;Internal server error&quot;,
++   &quot;status&quot;: 500,
+  },
+
+Number of calls: 1
+    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:113:26)</failure>
     </testcase>
-    <testcase classname="CalendarController updateCalendarName should update the calendar name" name="CalendarController updateCalendarName should update the calendar name" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:20:9)</failure>
+    <testcase classname="CalendarEntryController updateCalendarEntry should update a calendar entry" name="CalendarEntryController updateCalendarEntry should update a calendar entry" time="0.002">
     </testcase>
-    <testcase classname="CalendarController deleteCalendar should return an error if the calendarId is invalid" name="CalendarController deleteCalendar should return an error if the calendarId is invalid" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:20:9)</failure>
+    <testcase classname="CalendarEntryController updateCalendarEntry should return an error if the entry ID is invalid create" name="CalendarEntryController updateCalendarEntry should return an error if the entry ID is invalid create" time="0.002">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+- Expected
++ Received
+
+  Object {
+-   &quot;message&quot;: &quot;Invalid calendar entry id&quot;,
+-   &quot;status&quot;: 400,
++   &quot;message&quot;: &quot;Internal server errorTypeError: Cannot read properties of undefined (reading &apos;calendarId&apos;)&quot;,
++   &quot;status&quot;: 500,
+  },
+
+Number of calls: 1
+    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:168:26)</failure>
     </testcase>
-    <testcase classname="CalendarController deleteCalendar should delete the calendar" name="CalendarController deleteCalendar should delete the calendar" time="0">
-      <failure>PrismaClientInitializationError: Database `db_mero` does not exist on the database server at `localhost:5432`.
-    at t (H:\Work\Dev\calendar_management\node_modules\@prisma\client\runtime\library.js:112:2473)
-    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar\calendar.test.ts:20:9)</failure>
+    <testcase classname="CalendarEntryController deleteCalendarEntry should delete a calendar entry" name="CalendarEntryController deleteCalendarEntry should delete a calendar entry" time="0.001">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: 1
+
+Number of calls: 0
+    at Object.&lt;anonymous&gt; (H:\Work\Dev\calendar_management\src\components\calendar-entry\calendar-entry.test.ts:185:62)</failure>
+    </testcase>
+    <testcase classname="CalendarEntryController deleteCalendarEntry should return an error if the entry ID is invalid delete" name="CalendarEntryController deleteCalendarEntry should return an error if the entry ID is invalid delete" time="0">
     </testcase>
   </testsuite>
 </testsuites>

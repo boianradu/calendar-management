@@ -106,7 +106,7 @@ export class CalendarController {
             if (calendarDeleted === false) {
                 res.status(500).json("Calendar couldn't be deleted");
             } else {
-                res.status(HttpCode.CREATED).json(calendarDeleted);
+                res.status(HttpCode.DELETED).json(calendarDeleted);
             }
         } catch (error) {
             return next({ status: 500, message: "Internal server error" });
